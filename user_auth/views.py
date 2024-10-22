@@ -35,7 +35,6 @@ def get_users(request):
 @api_view(["PUT"])
 def update_user(request,pk):
     user= CustomUser.objects.get(pk=pk)
-    print(user)
     if not user:
         return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
     
@@ -44,3 +43,13 @@ def update_user(request,pk):
     serializer.save()
     return Response(serializer.data,status=status.HTTP_200_OK)
         
+        
+ 
+@api_view(["DELETE"])       
+def remove_user(request,pk):
+    user= CustomUser.objects.get(pk=pk)
+    if not user:
+        return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    user.delete()
+    return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
