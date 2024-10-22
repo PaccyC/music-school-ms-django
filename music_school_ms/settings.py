@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
     
     "rest_framework",
     'rest_framework_simplejwt',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth',
+    'allauth.account',
     "courses",
     "progress",
     "user_auth"
@@ -53,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    "allauth.account.middleware.AccountMiddleware"
 ]
 
 ROOT_URLCONF = 'music_school_ms.urls'
@@ -161,3 +168,21 @@ SIMPLE_JWT={
     "INCORPORATE_USER_ID_IN_TOKENS": True,
     "USER_ID_FIELD": "id",
 }
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google":{
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+SITE_ID = 1
