@@ -22,7 +22,7 @@ def create_user(request):
 
 
 @require_http_methods(["GET"])
-def get_users(request):
+def user_list(request):
     users = CustomUser.objects.all()
     if users.exists():
         
@@ -59,7 +59,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('all')
+            return redirect('user_list')
         else:
             messages.error(request, 'Invalid credentials')
     return render(request, 'login.html')

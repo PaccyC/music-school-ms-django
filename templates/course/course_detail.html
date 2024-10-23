@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+ <h2>Welcome to the course {{course.name}}</h2>
+
+ <p>{{course.description}}</p>
+ <p>Teacher: {{course.teacher}}</p>
+
+ <p>Studies for this course will start on {{course.start_date}}</p>
+ <p>Studies for this course will start on {{course.end_date}}</p>
+
+
+ <a href="{% url 'edit_course' course.pk %}">
+    <button>EDIT</button>
+</a>
+{%endblock%}

@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1>Here is the list of courses</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>TEACHER</th>
+            <th>START DATE</th>
+            <th>END DATE</th>
+            <th>SCHEDULE</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for course in courses %}
+        <a href="{% url 'course_detail' course.pk %}">
+        <tr>
+            <td>{{ course.id }}</td>
+            <td>{{ course.name }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.teacher }}</td>
+            <td>{{ course.start_date }}</td>
+            <td>{{ course.end_date }}</td>
+            <td>{{ course.schedule }}</td>
+            <td>
+                <form method="POST" action="{% url 'delete_course' course.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">DELETE</button>
+
+                </form>
+            </td> 
+            <td>
+                <a href="{% url 'edit_course' course.pk %}">
+                    <button>EDIT</button>
+                </a>
+            </td>
+        </tr>
+    </a>
+        {% endfor %}
+        {% if not courses %}
+        <tr>
+
+            <td colspan="7">No courses found</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+
+{%endblock%}
