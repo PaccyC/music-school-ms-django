@@ -22,3 +22,5 @@ class Enrollment(models.Model):
     
     def __str__(self):
         return f"{self.student.username} enrolled in {self.course.name}"    
+    
+    

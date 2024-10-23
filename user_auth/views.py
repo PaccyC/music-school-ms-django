@@ -1,55 +1,65 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from .serializers import UserModelSerializer
-from rest_framework.response import Response
-from rest_framework import status
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_http_methods
 from .models import CustomUser
+from .forms import RegisterForm,UpdateProfileForm
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
 # Create your views here.
 
-
-@api_view(["GET","POST"])
+@require_http_methods(["GET", "POST"])
 def create_user(request):
     if request.method == "POST":
-        # Create User logic here
-        serializer = UserModelSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data,status=200)
-     
-     
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect("login")
+        else:
+            return JsonResponse(form.errors, status=400)
+
+    form = RegisterForm()
+    return render(request, "create_user.html", {"form": form})
 
 
-@api_view(["GET"])
+@require_http_methods(["GET"])
 def get_users(request):
-    users= CustomUser.objects.all()
-    print("Users found",users)
+    users = CustomUser.objects.all()
     if users.exists():
-        serializer = UserModelSerializer(users, many=True)
-        return Response(serializer.data,status=200)
         
+        return render(request, "user_list.html",{'users':users})
     else:
-        return Response({"message": "No users found"}, status=status.HTTP_404_NOT_FOUND)
-    
+        return JsonResponse({"message": "No users found"}, status=404)
     
 
-@api_view(["PUT"])
-def update_user(request,pk):
-    user= CustomUser.objects.get(pk=pk)
-    if not user:
-        return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@require_http_methods(["POST"])
+def update_user(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
+    form = UpdateProfileForm(request.POST, instance=user)
     
-    serializer = UserModelSerializer(user, data=request.data,partial=True)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(serializer.data,status=status.HTTP_200_OK)
-        
-        
+    if form.is_valid():
+        user = form.save()
+        return JsonResponse({"username": user.username, "email": user.email}, status=200)
+    else:
+        return JsonResponse(form.errors, status=400)
+
  
-@api_view(["DELETE"])       
-def remove_user(request,pk):
-    user= CustomUser.objects.get(pk=pk)
-    if not user:
-        return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+@require_http_methods(["POST", "DELETE"])  
+def remove_user(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
     user.delete()
-    return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse({"message": "User deleted successfully"}, status=204)
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('all')
+        else:
+            messages.error(request, 'Invalid credentials')
+    return render(request, 'login.html')
