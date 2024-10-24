@@ -32,6 +32,10 @@ def user_list(request):
     
 
 
+def student_list(request):
+    users=CustomUser.objects.filter(role="student")
+    return render(request, 'student_list.html', {'students': users})
+
 
 @require_http_methods(["POST"])
 def update_user(request, pk):
@@ -56,10 +60,20 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        try:
+            user= CustomUser.objects.get(username=username, password=password)
+        except:
+            messages.error(request, 'Invalid username or password')
+    
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('user_list')
+            return redirect('home')
         else:
             messages.error(request, 'Invalid credentials')
     return render(request, 'login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')

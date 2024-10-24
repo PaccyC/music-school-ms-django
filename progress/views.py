@@ -125,27 +125,25 @@ def edit_grade(request,grade_id):
 
 
 
-def record_performance(request,student_id):
-    student=get_object_or_404(CustomUser,id=student_id,role='student')
+def record_performance(request, student_id):
+    student = get_object_or_404(CustomUser, id=student_id, role='student')
     
     if request.method == 'POST':
-        form=PerformanceForm(request.POST)
+        form = PerformanceForm(request.POST)
         if form.is_valid():
-            performance=form.save(commit=False)
-            performance.student=student
+            performance = form.save(commit=False)
+            performance.student = student
             performance.save()
-            messages.success(request,"Performance has been recorded successfully")
-            return redirect('student_performance',student_id=student_id)
-        
+            messages.success(request, "Performance has been recorded successfully")
+            return redirect('student_performance', student_id=student_id)
     else:
-        form=PerformanceForm()
+        form = PerformanceForm()  # Initialize the form for GET requests
         
-    context ={
-        'student':student,
-        'form':form,
+    context = {
+        'student': student,
+        'form': form,  # Pass the initialized form to the context
     }        
-    return render(request,'performance/record_performance.html',context)
-
+    return render(request, 'performance/record_performance.html', context)
 
 
 def view_performances_by_student(request,student_id):

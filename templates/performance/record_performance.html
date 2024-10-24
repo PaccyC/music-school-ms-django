@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Record Performance for {{ student.username }} at {{ event_name }}</h2>
+<div class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6">Record Performance for <span class="text-blue-500">{{ student.username }}</span></h2>
 
-<form method="POST">
-    {% csrf_token %}
-    <div>
-        <label for="event_name">Event Name</label>
-        {{ form.event_name }}
-    </div>
-    <div>
-        <label for="date">Date</label>
-        {{ form.date }}
-    </div>
-    <div>
-        <label for="performance_feedback">Performance Feedback</label>
-        {{ form.performance_feedback }}
-    </div>
-    <button type="submit">Record Performance</button>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="event_name" class="block text-gray-700">Event Name</label>
+            {{ form.event_name }}  <!-- Use form.event_name -->
+            {% if form.event_name.errors %}
+                <div class="text-red-500">{{ form.event_name.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-4">
+            <label for="date" class="block text-gray-700">Date</label>
+            {{ form.date }}  <!-- Use form.date -->
+            {% if form.date.errors %}
+                <div class="text-red-500">{{ form.date.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="performance_feedback" class="block text-gray-700">Performance Feedback</label>
+            {{ form.performance_feedback }}  <!-- Use form.performance_feedback -->
+            {% if form.performance_feedback.errors %}
+                <div class="text-red-500">{{ form.performance_feedback.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="bg-blue-500 text-white rounded-lg px-4 py-2">Record Performance</button>
+    </form>
 
-<a href="{% url 'student_performances' student.pk %}">Back to Student Performances</a>
+    <a href="{% url 'student_performances' student.pk %}" class="text-blue-500 underline mt-4 inline-block">Back to Student Performances</a>
+</div>
 {% endblock %}

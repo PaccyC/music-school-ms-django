@@ -15,7 +15,7 @@
                 <th class="px-4 py-2 border-b">Start Date</th>
                 <th class="px-4 py-2 border-b">End Date</th>
                 <th class="px-4 py-2 border-b">Schedule</th>
-                <th class="px-4 py-2 border-b">Actions</th>
+                <th class="px-4 py-2 border-b">View</th>
             </tr>
         </thead>
         <tbody>
@@ -28,15 +28,9 @@
                 <td class="px-4 py-2 border-b">{{ course.start_date }}</td>
                 <td class="px-4 py-2 border-b">{{ course.end_date }}</td>
                 <td class="px-4 py-2 border-b">{{ course.schedule }}</td>
-                <td class="px-4 py-2 border-b">
-                    <form method="POST" action="{% url 'delete_course' course.pk %}" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
-                    </form>
-                </td> 
-                <td class="px-4 py-2 border-b">
-                    <a href="{% url 'edit_course' course.pk %}">
-                        <button class="text-blue-600 hover:text-blue-800 font-semibold">Edit</button>
+                <td>
+                    <a href="{% url 'course_detail' course.pk %}">
+                        <button class="text-blue-600 hover:text-blue-800 font-semibold">View</button>
                     </a>
                 </td>
             </tr>
@@ -48,6 +42,9 @@
             {% endif %}
         </tbody>
     </table>
+    <a href="{% url 'add_course'%}">
+        <button class="text-blue-600 hover:text-blue-800 font-semibold">Add New Course</button>
+    </a>
 </div>
 
 {% endblock %}

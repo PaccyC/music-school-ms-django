@@ -5,94 +5,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title%} Music School MS {% endblock%}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-    <style>
-        /* Additional styling for layout (if needed) */
-        .main-layout {
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #f9fafb; /* You can use your preferred colors */
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            color: #333;
-            text-decoration: none;
-        }
-        .nav-item:hover {
-            background-color: #e2e8f0;
-            border-radius: 8px;
-        }
-    </style>
+    <title>{% block title %} Music School MS {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+<body class="bg-gray-50">
 
-<body>
+    <div class="min-h-screen flex">
 
-    <div class="main-layout">
-        {% if user.is_authenticated %}
-        <!-- Sidebar for authenticated users -->
-        <div class="sidebar bg-gray-100 p-4">
-            <div class="logo">
-                <h2 class="font-bold text-xl mb-6">Coursio</h2>
+        {% if request.user.is_authenticated %}
+        <div class="w-64 bg-gray-100 p-4 shadow-md">
+            <div class="mb-10">
+                <h2 class="text-2xl font-bold text-gray-700">Coursio</h2>
             </div>
-            <nav>
-                <a href="{% url 'home' %}" class="nav-item">
+            <nav class="space-y-4">
+              
+                <a href="{% url 'home' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg">
                     <i class="icon-home"></i>
                     <span>Home</span>
                 </a>
-                <a href="{% url 'schedule' %}" class="nav-item">
-                    <i class="icon-schedule"></i>
-                    <span>Schedule</span>
-                </a>
-                <a href="{% url 'courses' %}" class="nav-item">
+              
+                <a href="{% url 'course_list' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg">
                     <i class="icon-courses"></i>
                     <span>Courses</span>
                 </a>
-                <a href="{% url 'analytics' %}" class="nav-item">
-                    <i class="icon-analytics"></i>
-                    <span>Analytics</span>
+                <a href="{% url 'student_list' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg">
+                    <i class="icon-courses"></i>
+                    <span>Students</span>
                 </a>
-                <a href="{% url 'assignments' %}" class="nav-item">
-                    <i class="icon-assignment"></i>
-                    <span>Assignment</span>
-                </a>
-                <a href="{% url 'messages' %}" class="nav-item">
+               
+                <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg">
                     <i class="icon-messages"></i>
                     <span>Messages</span>
                 </a>
-                <a href="{% url 'settings' %}" class="nav-item">
+                <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg">
                     <i class="icon-settings"></i>
                     <span>Settings</span>
                 </a>
-                <a href="{% url 'help' %}" class="nav-item">
-                    <i class="icon-help"></i>
-                    <span>Help</span>
-                </a>
+          
             </nav>
+            <div class="mt-10">
+                <a href="{% url 'logout'%}">
+                    <button class="w-full  bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-800">
+                        LOGOUT
+                    </button>
+                </a>   
+            </div>
         </div>
-        {% endif %}
-
+        {%endif%}
+   
         <!-- Main Content -->
-        <div class="content bg-white p-8">
+        <div class="flex-1 p-8 bg-white shadow-md">
             {% block content %}
             {% endblock %}
         </div>
     </div>
 
-    <footer class="text-center py-4">
+    <footer class="text-center py-4 bg-gray-50 text-gray-600">
         <p>&copy; 2024 Music School MS. All Rights Reserved.</p>
     </footer>
+    
 </body>
 </html>
