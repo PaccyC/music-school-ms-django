@@ -1,7 +1,30 @@
-{%extends 'base.html'%}
-
+{% extends 'base.html' %}
 
 {% block content %}
+<h2>Mark Attendance for {{ course.name }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label>Date:</label>
+    <input type="date" name="date" required>
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Present</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.username }}</td>
+                <td>
+                    <input type="checkbox" name="present_{{ student.id }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-
-{%endblock%}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Grade for {{ grade.student.username }} in {{ grade.course.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="score">Score</label>
+        {{ form.score }}
+    </div>
+    <div>
+        <label for="feedback">Feedback</label>
+        {{ form.feedback }}
+    </div>
+    <button type="submit">Update Grade</button>
+</form>
+{% endblock %}

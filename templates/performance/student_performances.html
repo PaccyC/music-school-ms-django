@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Performances for {{ student.username }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Feedback</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for performance in performances %}
+        <tr>
+            <td>{{ performance.event_name }}</td>
+            <td>{{ performance.date }}</td>
+            <td>{{ performance.performance_feedback }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No performances recorded for this student.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'student_list' %}">Back to Students</a>
+{% endblock %}

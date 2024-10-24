@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Grades for {{ course.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Score</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.username }}</td>
+                <td>
+                    <input type="number" name="score_{{ student.id }}" placeholder="Enter score" required>
+                </td>
+                <td>
+                    <input type="text" name="feedback_{{ student.id }}" placeholder="Enter feedback">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <button type="submit">Add Grades</button>
+</form>
+
+<a href="{% url 'course_grades' course.pk %}">Back to Course Grades</a>
+{% endblock %}

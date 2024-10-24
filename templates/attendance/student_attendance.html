@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Attendance for {{student.username }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Course</th>
+            <th>Present</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attendance in attendances %}
+        <tr>
+            <td>{{ attendance.date }}</td>
+            <td>{{ attendance.course.name }}</td>
+            <td>{% if attendance.present %}✔️{% else %}❌{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No attendance records found for this student.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

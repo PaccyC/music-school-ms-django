@@ -31,7 +31,7 @@ def make_attendance(request,course_id):
         'course':course,
         "students":students
     }
-    return render(request,"attendance/mark_attendence.html",context)
+    return render(request,"attendance/mark_attendance.html",context)
 
 
 def view_attendance_by_student(request,student_id):
@@ -41,7 +41,7 @@ def view_attendance_by_student(request,student_id):
         'student':student,
         'attendances':attendances
     }
-    return render(request,'attendance/student_attendance.html')
+    return render(request,'attendance/student_attendance.html',context)
 
 
 def view_attendance_by_course(request,course_id):

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Grades for {{ student.username }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Score</th>
+            <th>Feedback</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for grade in grades %}
+        <tr>
+            <td>{{ grade.course.name }}</td>
+            <td>{{ grade.score }}</td>
+            <td>{{ grade.feedback }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No grades found for this student.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

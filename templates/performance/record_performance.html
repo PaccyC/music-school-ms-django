@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Record Performance for {{ student.username }} at {{ event_name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="event_name">Event Name</label>
+        {{ form.event_name }}
+    </div>
+    <div>
+        <label for="date">Date</label>
+        {{ form.date }}
+    </div>
+    <div>
+        <label for="performance_feedback">Performance Feedback</label>
+        {{ form.performance_feedback }}
+    </div>
+    <button type="submit">Record Performance</button>
+</form>
+
+<a href="{% url 'student_performances' student.pk %}">Back to Student Performances</a>
+{% endblock %}
