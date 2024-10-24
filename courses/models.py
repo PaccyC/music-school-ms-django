@@ -1,5 +1,6 @@
 from django.db import models
 from user_auth.models import CustomUser
+from django import forms
 # Create your models here.
 
 class Course(models.Model):
@@ -9,6 +10,7 @@ class Course(models.Model):
     start_date=models.DateField()
     end_date=models.DateField()
     schedule=models.TextField()
+  
     
     def __str__(self):
         return self.name

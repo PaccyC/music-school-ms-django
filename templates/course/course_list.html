@@ -1,56 +1,53 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<h1>Here is the list of courses</h1>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>NAME</th>
-            <th>DESCRIPTION</th>
-            <th>TEACHER</th>
-            <th>START DATE</th>
-            <th>END DATE</th>
-            <th>SCHEDULE</th>
-            <th>ACTIONS</th>
-        </tr>
-    </thead>
+<div class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold text-center mb-6">Here is the List of Courses</h1>
+    
+    <table class="min-w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="px-4 py-2 border-b">ID</th>
+                <th class="px-4 py-2 border-b">Name</th>
+                <th class="px-4 py-2 border-b">Description</th>
+                <th class="px-4 py-2 border-b">Teacher</th>
+                <th class="px-4 py-2 border-b">Start Date</th>
+                <th class="px-4 py-2 border-b">End Date</th>
+                <th class="px-4 py-2 border-b">Schedule</th>
+                <th class="px-4 py-2 border-b">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr class="hover:bg-gray-100">
+                <td class="px-4 py-2 border-b">{{ course.id }}</td>
+                <td class="px-4 py-2 border-b">{{ course.name }}</td>
+                <td class="px-4 py-2 border-b">{{ course.description }}</td>
+                <td class="px-4 py-2 border-b">{{ course.teacher }}</td>
+                <td class="px-4 py-2 border-b">{{ course.start_date }}</td>
+                <td class="px-4 py-2 border-b">{{ course.end_date }}</td>
+                <td class="px-4 py-2 border-b">{{ course.schedule }}</td>
+                <td class="px-4 py-2 border-b">
+                    <form method="POST" action="{% url 'delete_course' course.pk %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
+                    </form>
+                </td> 
+                <td class="px-4 py-2 border-b">
+                    <a href="{% url 'edit_course' course.pk %}">
+                        <button class="text-blue-600 hover:text-blue-800 font-semibold">Edit</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not courses %}
+            <tr>
+                <td colspan="8" class="text-center py-4 text-gray-500">No courses found</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
 
-    <tbody>
-        {% for course in courses %}
-        <a href="{% url 'course_detail' course.pk %}">
-        <tr>
-            <td>{{ course.id }}</td>
-            <td>{{ course.name }}</td>
-            <td>{{ course.description }}</td>
-            <td>{{ course.teacher }}</td>
-            <td>{{ course.start_date }}</td>
-            <td>{{ course.end_date }}</td>
-            <td>{{ course.schedule }}</td>
-            <td>
-                <form method="POST" action="{% url 'delete_course' course.pk %}">
-                    {% csrf_token %}
-                    <button type="submit">DELETE</button>
-
-                </form>
-            </td> 
-            <td>
-                <a href="{% url 'edit_course' course.pk %}">
-                    <button>EDIT</button>
-                </a>
-            </td>
-        </tr>
-    </a>
-        {% endfor %}
-        {% if not courses %}
-        <tr>
-
-            <td colspan="7">No courses found</td>
-        </tr>
-        {% endif %}
-    </tbody>
-</table>
-
-
-{%endblock%}
+{% endblock %}

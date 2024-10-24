@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 
-{%block content%}
+{% block content %}
 
+<div class="max-w-lg mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold text-center mb-6">Create a New Course</h2>
 
-<h2>CREATE A NEW COURSE</h2>
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        {{ form.as_p}}  
+        
+        <button type="submit" class="w-full py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200">
+            Add Course
+        </button>
+    </form>
+</div>
 
-<form method="POST">
-
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ADD COURSE</button>
-</form>
-
-
-{%endblock%}
+{% endblock %}

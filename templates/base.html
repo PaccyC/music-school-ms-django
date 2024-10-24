@@ -1,4 +1,4 @@
-{% load static%}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,26 +7,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title%} Music School MS {% endblock%}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        /* Additional styling for layout (if needed) */
+        .main-layout {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f9fafb; /* You can use your preferred colors */
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            color: #333;
+            text-decoration: none;
+        }
+        .nav-item:hover {
+            background-color: #e2e8f0;
+            border-radius: 8px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <nav>
-        <ul>
-          
-            {% if user.is_authenticated %}
-            
-            {% else %}
-           
-            {% endif %}
-        </ul>
-    </nav>
+    <div class="main-layout">
+        {% if user.is_authenticated %}
+        <!-- Sidebar for authenticated users -->
+        <div class="sidebar bg-gray-100 p-4">
+            <div class="logo">
+                <h2 class="font-bold text-xl mb-6">Coursio</h2>
+            </div>
+            <nav>
+                <a href="{% url 'home' %}" class="nav-item">
+                    <i class="icon-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'schedule' %}" class="nav-item">
+                    <i class="icon-schedule"></i>
+                    <span>Schedule</span>
+                </a>
+                <a href="{% url 'courses' %}" class="nav-item">
+                    <i class="icon-courses"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="{% url 'analytics' %}" class="nav-item">
+                    <i class="icon-analytics"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="{% url 'assignments' %}" class="nav-item">
+                    <i class="icon-assignment"></i>
+                    <span>Assignment</span>
+                </a>
+                <a href="{% url 'messages' %}" class="nav-item">
+                    <i class="icon-messages"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="{% url 'settings' %}" class="nav-item">
+                    <i class="icon-settings"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="{% url 'help' %}" class="nav-item">
+                    <i class="icon-help"></i>
+                    <span>Help</span>
+                </a>
+            </nav>
+        </div>
+        {% endif %}
 
-    <div class="content">
-        {% block content%}
-        {%endblock%}
+        <!-- Main Content -->
+        <div class="content bg-white p-8">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 
-    <footer>
+    <footer class="text-center py-4">
         <p>&copy; 2024 Music School MS. All Rights Reserved.</p>
     </footer>
 </body>

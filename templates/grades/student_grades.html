@@ -1,28 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Grades for {{ student.username }}</h2>
+<div class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-3xl font-bold mb-6 text-center">Grades for <span class="text-blue-500">{{ student.username }}</span></h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Course</th>
-            <th>Score</th>
-            <th>Feedback</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for grade in grades %}
-        <tr>
-            <td>{{ grade.course.name }}</td>
-            <td>{{ grade.score }}</td>
-            <td>{{ grade.feedback }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No grades found for this student.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <table class="min-w-full bg-gray-100 border border-gray-300 rounded-lg">
+        <thead>
+            <tr class="bg-blue-500 text-white">
+                <th class="py-3 px-4 border-b">Course</th>
+                <th class="py-3 px-4 border-b">Score</th>
+                <th class="py-3 px-4 border-b">Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr class="hover:bg-gray-200">
+                <td class="py-2 px-4 border-b">{{ grade.course.name }}</td>
+                <td class="py-2 px-4 border-b">{{ grade.score }}</td>
+                <td class="py-2 px-4 border-b">{{ grade.feedback }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center py-4 text-gray-700">No grades found for this student.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
