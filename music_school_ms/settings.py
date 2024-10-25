@@ -59,11 +59,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    "allauth.account.middleware.AccountMiddleware"
+    "allauth.account.middleware.AccountMiddleware",
+    "user_auth.middleware.auto_logout.AutoLogout"
 ]
 
 ROOT_URLCONF = 'music_school_ms.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -184,4 +184,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+LOGIN_URL = '/users/login/'
+SESSION_COOKIE_AGE= 4 * 60 * 60 
 SITE_ID = 1

@@ -45,6 +45,30 @@
     <a href="{% url 'add_course'%}">
         <button class="text-blue-600 hover:text-blue-800 font-semibold">Add New Course</button>
     </a>
+
+    <div id="pagination" class=" my-5 mx-0 flex justify-center sticky bottom-0 bg-white z-50 py-3 px-0">
+        {% if courses.has_previous %}
+        <button class="">
+            <a href="?page=1">#=&laquo; first</a>
+        </button>
+        <button class="">
+            <a href="?page={{courses.previous_page_number}}">previous</a>
+        </button>
+        {% endif %}
+
+        <span class="">
+            Page {{courses.number}} of {{courses.paginator.num_pages}}.
+        </span>
+
+        {% if courses.has_next %}
+        <button>
+            <a href="?page={{courses.next_page_number }}">next</a>
+        </button>
+        <button>
+            <a href="?page={{courses.paginator.num_pages }}">last &raquo;</a>
+        </button>
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}

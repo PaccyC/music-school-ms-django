@@ -4,12 +4,14 @@ from progress.models import Attendance, Grade, Performance
 from user_auth.models import CustomUser
 from .forms import AttendanceForm, GradeForm, PerformanceForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
 
 # Creating attendance
 
+@login_required()
 def make_attendance(request,course_id):
     course= get_object_or_404(Course,id=course_id)
     students=CustomUser.objects.filter(role='student')
@@ -34,6 +36,7 @@ def make_attendance(request,course_id):
     return render(request,"attendance/mark_attendance.html",context)
 
 
+@login_required
 def view_attendance_by_student(request,student_id):
     student= get_object_or_404(CustomUser,id=student_id,role='student')
     attendances= Attendance.objects.filter(student=student)
@@ -43,7 +46,7 @@ def view_attendance_by_student(request,student_id):
     }
     return render(request,'attendance/student_attendance.html',context)
 
-
+@login_required
 def view_attendance_by_course(request,course_id):
     
     course= get_object_or_404(Course,id=course_id)
@@ -55,6 +58,7 @@ def view_attendance_by_course(request,course_id):
     return render(request,'attendance/course_attendance.html',context)
 
 
+@login_required
 def view_grades_by_student(request, student_id):
     student = get_object_or_404(CustomUser, id=student_id, role='student')
     grades = Grade.objects.filter(student=student)
@@ -64,7 +68,7 @@ def view_grades_by_student(request, student_id):
     }
     return render(request, 'grades/student_grades.html', context)
 
-
+@login_required
 def add_grade(request,course_id):
     course=get_object_or_404(Course,id=course_id)
     students=CustomUser.objects.filter(role='student')
@@ -91,7 +95,7 @@ def add_grade(request,course_id):
     
     return render(request,'grades/add_grade.html',context)
 
-
+@login_required
 def view_grades_by_course(request,course_id):
     course=get_object_or_404(Course,id=course_id)
     grades=Grade.objects.filter(course=course)
@@ -103,7 +107,7 @@ def view_grades_by_course(request,course_id):
     return render(request,'grades/course_grades.html',context)
 
 
-
+@login_required
 def edit_grade(request,grade_id):
     grade= get_object_or_404(Grade,id=grade_id)
     if request.method == 'POST':
@@ -124,7 +128,7 @@ def edit_grade(request,grade_id):
     return render(request,'grades/edit_grade.html',context)
 
 
-
+@login_required
 def record_performance(request, student_id):
     student = get_object_or_404(CustomUser, id=student_id, role='student')
     
@@ -145,7 +149,7 @@ def record_performance(request, student_id):
     }        
     return render(request, 'performance/record_performance.html', context)
 
-
+@login_required
 def view_performances_by_student(request,student_id):
     student=get_object_or_404(CustomUser,id=student_id,role='student')
     performances=Performance.objects.filter(student=student).order_by('-date')
