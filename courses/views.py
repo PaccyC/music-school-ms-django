@@ -11,7 +11,7 @@ def create_course(request):
         form = CourseForm(request.POST)
         if form.is_valid():
             course = form.save()
-            return redirect('', pk=course.pk)
+            return redirect('course_list')
         else:
             return render(request, 'course/create_course.html', {'form': form})
     else:
