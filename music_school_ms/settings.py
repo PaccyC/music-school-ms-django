@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'allauth.account',
     "courses",
     "progress",
-    "user_auth"
+    "user_auth",
+    "widget_tweaks"
 ]
 
 MIDDLEWARE = [
@@ -185,5 +186,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 LOGIN_URL = '/users/login/'
-SESSION_COOKIE_AGE= 4 * 60 * 60 
+SESSION_COOKIE_AGE= 480
 SITE_ID = 1
+
+
+AUTH_USER_MODEL= "user_auth.CustomUser"

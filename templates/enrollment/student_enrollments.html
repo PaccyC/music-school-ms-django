@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+
+{%block content%}
+
+<h3>Hello {{request.user}} , You are currently enrolled in the following courses: </h3>
+<ul>
+    {% for enrollment in enrollments %}
+    <li>{{enrollment.course.name}} (Enrolled on: {{enrollment.enrollment_date}})</li>
+    {% endfor %}
+</ul>
+{%endblock%}

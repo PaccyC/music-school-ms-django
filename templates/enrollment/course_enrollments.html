@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+
+{%block content%}
+
+<ul>
+
+    {% for enrollment in enrollments %}
+    <li>{{enrollment.student.username}}</li>
+   {% endfor %}
+</ul>
+{%endblock%}

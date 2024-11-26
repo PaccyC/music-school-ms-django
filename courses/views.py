@@ -1,10 +1,25 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 
-from courses.forms import CourseForm
-from courses.models import Course
+from courses.forms import CourseForm, EnrollmentForm
+from courses.models import Course, Enrollment
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.http import HttpResponse
 # Create your views here.
+
+
+
+def get_enrollment_data(request):
+    enrollment_data=(
+        Course.objects.annotate(student_count= Count("teacher_id"))
+        .values("name","student_count")
+    )
+    
+    
+    
+    return HttpResponse(enrollment_data)
+
 @login_required
 def create_course(request):
     if request.method == 'POST':
@@ -66,3 +81,69 @@ def edit_course(request,pk):
     else:
         form = CourseForm()
         return render(request, 'course/edit-course.html', {'form': form})
+
+
+
+@login_required
+def enroll_student(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        form= EnrollmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('course_detail', pk=course.pk)
+        
+        else:
+            return render(request, 'enrollment/enroll_student.html', {'form': form, 'course': course})
+    
+    else:
+        form = EnrollmentForm(initial={'course':course, 'student': request.user})
+        return render(request, 'enrollment/enroll_student.html', {'form': form, 'course': course})
+    
+
+
+
+@login_required
+def course_enrollments(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    enrollments = Enrollment.objects.filter(course=course)
+    return render(request, 'enrollment/course_enrollments.html', {'enrollments': enrollments, 'course': course})
+
+
+@login_required
+def student_enrollments(request):
+    enrollments= Enrollment.objects.filter(student= request.user)
+    return render(request, 'enrollment/student_enrollments.html', {'enrollments': enrollments})
+    
+    
+# Unenrollments
+@login_required
+def unenroll_students(request, enrollment_id):
+    enrollment= get_object_or_404(Enrollment,pk=enrollment_id)
+    if request.method == "POST":
+        enrollment.delete()
+        return redirect('student_enrollments')
+    else:
+        return render(request, 'enrollment/unenroll_confirm.html', {'enrollment': enrollment})
+    
+
+
+
+
+def teacher_workload_chart(request):
+    teacher_workload=(
+    Course.objects.values("teacher__username")
+    .annotate(course_count=Count("id"))
+    .order_by("-course_count")
+    )
+    
+    
+    labels= [entry['teacher__username'] for entry in teacher_workload]
+    data = [entry['course_count'] for entry in teacher_workload]
+    
+    context = {
+        'labels': labels,
+        'data': data,
+    }
+    
+    return render(request, 'teacher_workload_chart.html', context)

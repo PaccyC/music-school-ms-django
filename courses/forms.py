@@ -1,6 +1,6 @@
 from django import forms
 
-from courses.models import Course
+from courses.models import Course,Enrollment
 
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,10 @@ class CourseForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md', 'type': 'date'}),
             'schedule': forms.Textarea(attrs={'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md'}),
         }
+
+
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model= Enrollment
+        fields="__all__"

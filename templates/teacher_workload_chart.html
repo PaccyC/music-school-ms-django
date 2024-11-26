@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Workload</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Teacher Workload</h1>
+    <canvas id="teacherWorkloadChart" width="400" height="200"></canvas>
+
+    <script>
+        const labels = {{ labels|safe }}; 
+        const data = {{ data|safe }};     
+
+        const ctx = document.getElementById('teacherWorkloadChart').getContext('2d');
+        const teacherWorkloadChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels, 
+                datasets: [{
+                    label: 'Number of Courses',
+                    data: data, 
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Horizontal bar chart
+                scales: {
+                    x: {
+                        beginAtZero: true // Start the X-axis at zero
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

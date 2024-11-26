@@ -19,7 +19,7 @@ class Course(models.Model):
 class Enrollment(models.Model):
     student=models.ForeignKey(CustomUser,on_delete=models.CASCADE,limit_choices_to={'role':'student'})
     course=models.ForeignKey(Course,on_delete=models.CASCADE)
-    anrollment_date=models.DateField(auto_now_add=True)
+    enrollment_date=models.DateField(auto_now_add=True)
     
     
     def __str__(self):

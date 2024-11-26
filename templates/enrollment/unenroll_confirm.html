@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{%block content%}
+
+<h1>Unenroll from {{enrollment.course.name}}</h1>
+<p>Are you sure you want to unenroll from this course?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Unenroll</button>
+    <a href="{% url 'student_enrollments' %}">Cancel</a>
+</form>
+{%endblock%}
