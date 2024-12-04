@@ -130,20 +130,3 @@ def unenroll_students(request, enrollment_id):
 
 
 
-def teacher_workload_chart(request):
-    teacher_workload=(
-    Course.objects.values("teacher__username")
-    .annotate(course_count=Count("id"))
-    .order_by("-course_count")
-    )
-    
-    
-    labels= [entry['teacher__username'] for entry in teacher_workload]
-    data = [entry['course_count'] for entry in teacher_workload]
-    
-    context = {
-        'labels': labels,
-        'data': data,
-    }
-    
-    return render(request, 'teacher_workload_chart.html', context)
