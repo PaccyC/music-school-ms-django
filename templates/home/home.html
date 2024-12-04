@@ -2,6 +2,62 @@
 
 {% block content %}
 
-<h2>Welcome to Coursio</h2>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
 
-{%endblock%}
+    <header class="bg-blue-600 text-white py-4 w-full shadow-md">
+        <h1 class="text-center text-2xl font-bold">Teacher Workload</h1>
+    </header>
+
+    <main class="flex flex-col items-center justify-center w-full px-4">
+        <div class="bg-white shadow-lg rounded-lg p-6 mt-8 w-full max-w-4xl">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4 text-center">
+                Number of Courses Assigned to Teachers
+            </h2>
+            <canvas id="teacherWorkloadChart" class="w-full h-auto"></canvas>
+        </div>
+    </main>
+
+    <script>
+        const labels = {{ labels|safe }}; 
+        const data = {{ data|safe }};     
+
+        const ctx = document.getElementById('teacherWorkloadChart').getContext('2d');
+        const teacherWorkloadChart = new Chart(ctx, {
+            type: 'bar', 
+            data: {
+                labels: labels, 
+                datasets: [{
+                    label: 'Number of Courses',
+                    data: data, 
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Teachers',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true, 
+                        title: {
+                            display: true,
+                            text: 'Number of Courses',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+{%endblock %}

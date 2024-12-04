@@ -11,5 +11,4 @@ urlpatterns=[
     path("student/enrollments/",views.student_enrollments,name="student_enrollments"),
     path("<int:course_id>/enrollments/",views.course_enrollments,name="course_enrollments"),
     path("unenroll/<int:enrollment_id>/",views.unenroll_students,name="unenroll_student"),
-    path('teacher-workload/', views.teacher_workload_chart, name='teacher_workload_chart'),
 ]
